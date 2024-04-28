@@ -157,9 +157,9 @@ const commands = [
         .setDescription("amount of message to be deleted")
         .setRequired(true)
     ),
-  //Message
+  //Sendmessage
   new SlashCommandBuilder()
-    .setName("message")
+    .setName("sendmessage")
     .setDescription("Send configs messages")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) =>
@@ -167,6 +167,36 @@ const commands = [
         .setName("name")
         .setDescription("config message name")
         .setRequired(true)
+    ),
+  //Message
+  new SlashCommandBuilder()
+    .setName("message")
+    .setDescription("custom message")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("create")
+        .setDescription("Create a new custom message")
+        .addStringOption((option) =>
+          option
+            .setName("content")
+            .setDescription("message content")
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName("edit")
+        .setDescription("Edit a recent send message")
+        .addStringOption((option) =>
+          option.setName("id").setDescription("message id").setRequired(true)
+        )
+        .addStringOption((option) =>
+          option
+            .setName("content")
+            .setDescription("new message content")
+            .setRequired(true)
+        )
     ),
 ];
 

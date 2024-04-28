@@ -91,7 +91,7 @@ client.on("interactionCreate", async (interaction) => {
   //Message
   if (interaction.isButton()) {
     //Accept
-    if (interaction.message.id === "1234200884334821456") {
+    if (interaction.message.id === "1234241507335340164") {
       await interaction.deferReply({ ephemeral: true });
       const role = interaction.guild.roles.cache.get("1076163142687662110");
       const hasRole = interaction.member.roles.cache.has(role.id);
@@ -104,171 +104,212 @@ client.on("interactionCreate", async (interaction) => {
         `✅ Merci d'avoir accpeter les règles, tu à maintenant accès à l'entiérté du serveur `
       );
     }
-    /*if (interaction.message.id === "1229177076389642300") {
-      await interaction.deferReply({ ephemeral: true });
+  }
+  //State
+  if (interaction.commandName === "ticket") {
+    const subcommand = interaction.options.getSubcommand();
 
-      const role = interaction.guild.roles.cache.get(interaction.customId);
-      if (!role) {
-        interaction.editReply({
-          content: "Can not find role",
+    if (subcommand === "state") {
+      const state = interaction.options.get("state").value;
+      const type = interaction.options.get("type")?.value;
+      const name = interaction.options.get("name")?.value;
+      const channel_name = interaction.channel.name;
+      const new_channel_name = channel_name.substring(1);
+
+      if (type && name) {
+        interaction.channel.setName(`${state}│${type}│${name}`);
+      } else {
+        interaction.channel.setName(`${state}${new_channel_name}`);
+      }
+      interaction.reply({
+        content: "✅ Channel succefully renamed",
+        ephemeral: true,
+      });
+    }
+  }
+  //Embed
+  if (interaction.commandName === "embed") {
+    const subcommand = interaction.options.getSubcommand();
+
+    if (subcommand === "create") {
+      const title = interaction.options.get("title")?.value;
+      const description = interaction.options.get("description")?.value;
+      const name1 = interaction.options.get("name1")?.value;
+      const value1 = interaction.options.get("value1")?.value;
+      const name2 = interaction.options.get("name2")?.value;
+      const value2 = interaction.options.get("value2")?.value;
+      const name3 = interaction.options.get("name3")?.value;
+      const value3 = interaction.options.get("value3")?.value;
+      const footer = interaction.options.get("footer")?.value;
+
+      const embed = new EmbedBuilder().setColor(0xff5829);
+      if (title) {
+        embed.setTitle(`${title}`);
+      }
+      if (description) {
+        embed.setDescription(`${description}`);
+      }
+      if (name1 && value1) {
+        embed.addFields({ name: `${name1}`, value: `${value1}` });
+      }
+      if (name2 && value2) {
+        embed.addFields({ name: `${name2}`, value: `${value2}` });
+      }
+      if (name3 && value3) {
+        embed.addFields({ name: `${name3}`, value: `${value3}` });
+      }
+      if (footer) {
+        embed.setFooter({
+          text: `${footer}`,
+          iconURL: `https://i.imgur.com/7KDAenY.png`,
         });
-        return;
       }
-
-      const hasRole = interaction.member.roles.cache.has(role.id);
-
-      if (hasRole) {
-        await interaction.member.roles.remove(role);
-        await interaction.editReply(`The role ${role} has been removed.`);
-        return;
-      }
-
-      await interaction.member.roles.add(role);
-      await interaction.editReply(`The role ${role} has been added.`);
+      interaction.channel.send({ embeds: [embed] });
+      interaction.reply({ content: "✅ done", ephemeral: true });
+      return;
     }
-  }*/
-    //State
-    if (interaction.commandName === "ticket") {
-      const subcommand = interaction.options.getSubcommand();
+    /*if (subcommand === "edit") {
+      const id = interaction.options.get("id").value;
+      message = await interaction.channel.messages.fetch(id);
+      //console.log(interaction.channel.messages);
+      const title = interaction.options.get("title")?.value;
+      const description = interaction.options.get("description")?.value;
+      const name1 = interaction.options.get("name1")?.value;
+      const value1 = interaction.options.get("value1")?.value;
+      const name2 = interaction.options.get("name2")?.value;
+      const value2 = interaction.options.get("value2")?.value;
+      const name3 = interaction.options.get("name3")?.value;
+      const value3 = interaction.options.get("value3")?.value;
+      const footer = interaction.options.get("footer")?.value;
 
-      if (subcommand === "state") {
-        const state = interaction.options.get("state").value;
-        const type = interaction.options.get("type")?.value;
-        const name = interaction.options.get("name")?.value;
-        const channel_name = interaction.channel.name;
-        const new_channel_name = channel_name.substring(1);
-
-        if (type && name) {
-          interaction.channel.setName(`${state}│${type}│${name}`);
-        } else {
-          interaction.channel.setName(`${state}${new_channel_name}`);
-        }
-        interaction.reply({
-          content: "✅ Channel succefully renamed",
-          ephemeral: true,
+      const embed = new EmbedBuilder().setColor(0xff5829);
+      if (title) {
+        embed.setTitle(`${title}`);
+      }
+      if (description) {
+        embed.setDescription(`${description}`);
+      }
+      if (name1 && value1) {
+        embed.addFields({ name: `${name1}`, value: `${value1}` });
+      }
+      if (name2 && value2) {
+        embed.addFields({ name: `${name2}`, value: `${value2}` });
+      }
+      if (name3 && value3) {
+        embed.addFields({ name: `${name3}`, value: `${value3}` });
+      }
+      if (footer) {
+        embed.setFooter({
+          text: `${footer}`,
+          iconURL: `https://i.imgur.com/7KDAenY.png`,
         });
       }
-    }
-    //Embed
-    if (interaction.commandName === "embed") {
-      const subcommand = interaction.options.getSubcommand();
-
-      if (subcommand === "create") {
-        const title = interaction.options.get("title")?.value;
-        const description = interaction.options.get("description")?.value;
-        const name1 = interaction.options.get("name1")?.value;
-        const value1 = interaction.options.get("value1")?.value;
-        const name2 = interaction.options.get("name2")?.value;
-        const value2 = interaction.options.get("value2")?.value;
-        const name3 = interaction.options.get("name3")?.value;
-        const value3 = interaction.options.get("value3")?.value;
-        const footer = interaction.options.get("footer")?.value;
-
-        const embed = new EmbedBuilder().setColor(0xff5829);
-        if (title) {
-          embed.setTitle(`${title}`);
-        }
-        if (description) {
-          embed.setDescription(`${description}`);
-        }
-        if (name1 && value1) {
-          embed.addFields({ name: `${name1}`, value: `${value1}` });
-        }
-        if (name2 && value2) {
-          embed.addFields({ name: `${name2}`, value: `${value2}` });
-        }
-        if (name3 && value3) {
-          embed.addFields({ name: `${name3}`, value: `${value3}` });
-        }
-        if (footer) {
-          embed.setFooter({
-            text: `${footer}`,
-            iconURL: `https://i.imgur.com/7KDAenY.png`,
-          });
-        }
-        interaction.channel.send({ embeds: [embed] });
-        interaction.reply({ content: "✅ done", ephemeral: true });
-        return;
-      }
-    }
-    //Info
-    if (interaction.commandName === "info") {
-      const embed = {
-        title: "Bienvenue sur notre serveur Discord !",
-        description:
-          "Tu trouvera des informations encore plus complète dans le salon <#1089167443622113362>",
-        color: 16734249,
-        fields: [
-          {
-            name: "Information",
-            value:
-              "Yotta est une entreprise de **montage, réparation et amélioration de PC** basé en Suisse.\nCeci est nôtre serveur communautaire.",
-          },
-          {
-            name: "Services",
-            value:
-              "Pour monter, réparer ou améliorer un pc, **ouvre un ticket** dans <#1082388572788764714>",
-          },
-          {
-            name: "Support",
-            value:
-              "Pour le support Discord et le support client, **ouvre un ticket** dans <#1076192037541511318>.",
-          },
-        ],
-        footer: {
-          text: "Pour plus d'aide contacte nous",
-          icon_url: "https://i.imgur.com/7KDAenY.png",
+      message.edit("this is the new content");
+      interaction.reply({ content: "✅ done", ephemeral: true });
+      return;
+    }*/
+  }
+  //Info
+  if (interaction.commandName === "info") {
+    console.log("info");
+    const embed = {
+      title: "Bienvenue sur notre serveur Discord !",
+      description:
+        "Tu trouvera des informations encore plus complète dans le salon <#1089167443622113362>",
+      color: 16734249,
+      fields: [
+        {
+          name: "Information",
+          value:
+            "Yotta est une entreprise de **montage, réparation et amélioration de PC** basé en Suisse.\nCeci est nôtre serveur communautaire.",
         },
-      };
+        {
+          name: "Services",
+          value:
+            "Pour monter, réparer ou améliorer un pc, **ouvre un ticket** dans <#1082388572788764714>",
+        },
+        {
+          name: "Support",
+          value:
+            "Pour le support Discord et le support client, **ouvre un ticket** dans <#1076192037541511318>.",
+        },
+      ],
+      footer: {
+        text: "Pour plus d'aide contacte nous",
+        icon_url: "https://i.imgur.com/7KDAenY.png",
+      },
+    };
 
-      interaction.reply({ embeds: [embed], ephemeral: true });
-    }
-    //Clear
-    if (interaction.commandName === "clear") {
-      const count = interaction.options.get("count").value;
-      async function clear() {
-        const fetched = await interaction.channel.messages.fetch({
-          limit: count,
-        });
-        try {
-          interaction.channel.bulkDelete(fetched, true);
-        } catch {
-          interaction.reply({
-            content:
-              "❌ Impossible de supprimer des messages datant de plus de **14 jours**",
-            ephemeral: true,
-          });
-          return;
-        }
+    interaction.reply({ embeds: [embed], ephemeral: true });
+  }
+  //Clear
+  if (interaction.commandName === "clear") {
+    const count = interaction.options.get("count").value;
+    async function clear() {
+      const fetched = await interaction.channel.messages.fetch({
+        limit: count,
+      });
+      try {
+        interaction.channel.bulkDelete(fetched, true);
+      } catch {
         interaction.reply({
-          content: `✅ Succefully deleted last messages`,
+          content:
+            "❌ Impossible de supprimer des messages datant de plus de **14 jours**",
           ephemeral: true,
         });
+        return;
       }
-      clear();
+      interaction.reply({
+        content: `✅ Succefully deleted last messages`,
+        ephemeral: true,
+      });
     }
-    //Messages
-    if (interaction.commandName === "message") {
-      const name = interaction.options.get("name").value;
-      if (name === "accept") {
-        try {
-          const button = new ButtonBuilder()
-            .setCustomId("1229112953765101749")
-            .setLabel("✅")
-            .setStyle(ButtonStyle.Success);
+    clear();
+  }
+  //Message
+  if (interaction.commandName === "message") {
+    const subcommand = interaction.options.getSubcommand();
 
-          const row = new ActionRowBuilder().addComponents(button);
+    if (subcommand === "create") {
+      const content = interaction.options.get("content").value;
 
-          await interaction.channel.send({
-            content: "Accept Rules",
-            components: [row],
-          });
-          process.exit;
-        } catch (error) {
-          console.log(error);
-        }
+      interaction.channel.send({ content: content });
+      interaction.reply({ content: "✅ done", ephemeral: true });
+      return;
+    }
+    if (subcommand === "edit") {
+      const id = interaction.options.get("id").value;
+      const content = interaction.options.get("content").value;
+
+      const message = await interaction.channel.messages.fetch(id);
+      message.edit(content);
+      interaction.reply({ content: "✅ done", ephemeral: true });
+      return;
+    }
+  }
+  //Sendmessages
+  if (interaction.commandName === "sendmessage") {
+    const name = interaction.options.get("name").value;
+    if (name === "accept") {
+      try {
+        const button = new ButtonBuilder()
+          .setCustomId("1229112953765101749")
+          .setLabel("✅")
+          .setStyle(ButtonStyle.Success);
+
+        const row = new ActionRowBuilder().addComponents(button);
+
+        await interaction.channel.send({
+          content:
+            "Pour profiter de toutes les fonctionnalités du serveur, il est nécessaire d'accepter les règles en cliquant sur le bouton ci-dessous.",
+          components: [row],
+        });
+        process.exit;
+      } catch (error) {
+        console.log(error);
       }
-      /*if (name === "role") {
+    }
+    /*if (name === "role") {
       const roles = [
         {
           id: "1229114188123869274",
@@ -304,7 +345,6 @@ client.on("interactionCreate", async (interaction) => {
       } catch (error) {
         console.log(error);
       }*/
-    }
   }
 });
 
